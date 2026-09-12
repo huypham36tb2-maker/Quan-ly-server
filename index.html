@@ -1,61 +1,1125 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BLM Discord Manager</title>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Discord Server Manager</title>
 <style>
-:root{--bg:#08080a;--panel:#111115;--panel2:#18181d;--line:#29292f;--text:#f7f7f8;--muted:#9898a3;--ok:#62e39a;--red:#ff6973;--yellow:#e7bd5e}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{display:flex;min-height:100vh}.side{width:245px;position:fixed;inset:0 auto 0 0;background:#0c0c0f;border-right:1px solid var(--line);padding:16px 12px}.brand{font-size:18px;font-weight:850;padding:9px 10px 20px}.server{border:1px solid var(--line);background:var(--panel);border-radius:11px;padding:11px;margin-bottom:14px}.server small{color:var(--muted)}.server b{display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nav button{display:block;width:100%;border:0;background:transparent;color:#a7a7b0;text-align:left;padding:10px 11px;border-radius:8px;margin:2px 0;cursor:pointer}.nav button.active,.nav button:hover{background:#1a1a1f;color:#fff}.main{margin-left:245px;width:calc(100% - 245px)}header{height:66px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 25px;position:sticky;top:0;background:#08080ae8;backdrop-filter:blur(12px);z-index:3}.content{max-width:1400px;margin:auto;padding:28px}.head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:19px}.head h1{margin:0 0 5px;font-size:29px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px}.stat .num{font-size:27px;font-weight:850;margin-top:9px}.layout{display:grid;grid-template-columns:1.4fr 1fr;gap:13px;margin-top:13px}.btn{background:var(--panel2);border:1px solid var(--line);color:#fff;padding:9px 13px;border-radius:8px;cursor:pointer}.primary{background:#fff;color:#000;border-color:#fff;font-weight:750}.danger{color:#ff8a91}.ok{color:var(--ok)}.toolbar{display:flex;gap:8px;margin-bottom:12px}input,select,textarea{background:#09090c;border:1px solid var(--line);color:#fff;border-radius:8px;padding:10px;outline:none}input{flex:1}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{text-align:left;padding:12px;border-top:1px solid #24242a;vertical-align:middle}th{color:#999;font-weight:600}.badge{font-size:11px;background:#222229;padding:4px 7px;border-radius:99px;margin:2px;display:inline-block}.guild{display:flex;align-items:center;gap:12px;padding:12px;border-top:1px solid var(--line);cursor:pointer}.guild:hover{background:#18181d}.gicon{width:40px;height:40px;border-radius:11px;background:#26262d;display:grid;place-items:center;font-weight:800}.modal{display:none;position:fixed;inset:0;background:#000b;place-items:center;z-index:20;padding:18px}.modal.show{display:grid}.modalbox{width:min(470px,100%);background:#121216;border:1px solid var(--line);border-radius:14px;padding:20px}.modalbox h2{margin:0 0 14px}.modalbox input,.modalbox select{width:100%;margin:6px 0 13px}.modalactions{display:flex;justify-content:end;gap:8px}.toast{position:fixed;right:20px;bottom:20px;background:#fff;color:#000;padding:11px 14px;border-radius:9px;font-weight:700;opacity:0;transform:translateY(10px);transition:.2s;z-index:30}.toast.show{opacity:1;transform:none}.login{max-width:550px;margin:12vh auto}.hero{font-size:35px;font-weight:850}.small{font-size:12px}.dangerbox{border-color:#51242a;background:#181014}
-@media(max-width:850px){.side{width:65px}.brand span,.server,.nav span{display:none}.nav button{text-align:center}.main{margin-left:65px;width:calc(100% - 65px)}.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}}@media(max-width:560px){.content{padding:15px}.grid{grid-template-columns:1fr}.head{align-items:start;flex-direction:column}}
-</style></head><body><div class="app"><aside class="side"><div class="brand">◈ <span>BẠCH LONG MINH</span></div><div class="server"><small>SERVER</small><b id="sname">Chưa chọn</b></div><div class="nav">
-<button class="active" data-p="overview">⌂ <span>Tổng quan</span></button><button data-p="members">♙ <span>Thành viên</span></button><button data-p="roles">◆ <span>Roles</span></button><button data-p="channels">▤ <span>Kênh</span></button><button data-p="moderation">🛡 <span>Moderation</span></button><button data-p="automod">⚡ <span>AutoMod</span></button><button data-p="welcome">✦ <span>Welcome</span></button><button data-p="embeds">▣ <span>Embed Builder</span></button><button data-p="logs">◷ <span>Logs</span></button><button data-p="permissions">🔑 <span>Permissions</span></button><button data-p="settings">⚙ <span>Cài đặt</span></button>
-</div></aside><main class="main"><header><span id="crumb" class="muted">Dashboard</span><span id="account"></span></header><section class="content" id="content"></section>
-<section id="page-antilink" class="page">
-  <div class="page-head"><div><h2>Anti Link</h2><p>Chặn link không được phép trong server.</p></div></div>
-  <div class="card">
-    <label class="switch-row"><span><b>Bật Anti Link</b><small>Bot sẽ tự động xóa link không nằm trong whitelist.</small></span>
-      <input id="alEnabled" type="checkbox"></label>
-    <label>Domain được phép <small>(mỗi dòng một domain)</small></label>
-    <textarea id="alDomains" rows="7" placeholder="youtube.com&#10;discord.com&#10;tiktok.com"></textarea>
-    <button class="primary" onclick="saveAntiLink()">Lưu Anti Link</button>
-    <div id="alStatus" class="muted"></div>
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:#0f1117;color:#f5f7fb}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{width:250px;background:#171a23;border-right:1px solid #282c38;padding:20px;position:fixed;left:0;top:0;bottom:0;overflow:auto}
+.logo{font-size:21px;font-weight:800;margin-bottom:25px}
+.server{background:#202532;padding:12px;border-radius:10px;margin-bottom:20px}
+.nav button{width:100%;border:0;background:transparent;color:#aeb5c5;text-align:left;padding:11px 12px;border-radius:8px;margin:2px 0}
+.nav button:hover,.nav button.active{background:#5865f2;color:white}
+.main{margin-left:250px;width:calc(100% - 250px);padding:25px}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+h1,h2,h3{margin-top:0}
+.muted{color:#8f98aa}
+.small{font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card{background:#171a23;border:1px solid #282c38;border-radius:12px;padding:18px;margin-bottom:16px}
+.stat b{display:block;font-size:27px;margin-top:7px}
+.btn{border:0;border-radius:8px;padding:9px 13px;background:#292e3b;color:#fff}
+.btn.primary{background:#5865f2}
+.btn.danger{background:#ed4245}
+.btn.success{background:#23a559}
+input,textarea,select{background:#10131a;color:#fff;border:1px solid #303544;border-radius:8px;padding:10px;width:100%}
+label{display:block;margin:13px 0 7px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:11px;border-bottom:1px solid #282c38}
+.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#292e3b;font-size:12px}
+.page{display:none}
+.page.active{display:block}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.switch-row{display:flex;align-items:center;justify-content:space-between;background:#202532;padding:14px;border-radius:10px}
+.switch-row input{width:auto}
+.modal-bg{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal{width:min(500px,100%);background:#171a23;border:1px solid #303544;border-radius:13px;padding:20px}
+.toast{position:fixed;right:20px;bottom:20px;background:#202532;padding:13px 17px;border-radius:9px;display:none;z-index:100}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{width:min(430px,100%);background:#171a23;border:1px solid #282c38;border-radius:15px;padding:30px;text-align:center}
+@media(max-width:900px){
+.sidebar{width:70px;padding:12px}
+.logo{font-size:0}
+.logo:after{content:"DS";font-size:18px}
+.nav button span,.server{display:none}
+.main{margin-left:70px;width:calc(100% - 70px)}
+.grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+.main{padding:15px}
+.grid{grid-template-columns:1fr}
+.head{align-items:flex-start;gap:10px;flex-direction:column}
+table{font-size:13px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="login" class="login" style="display:none">
+  <div class="login-box">
+    <h1>Discord Server Manager</h1>
+    <p class="muted">Đăng nhập bằng Discord để quản lý server.</p>
+    <a href="/auth/discord">
+      <button class="btn primary" style="margin-top:15px;width:100%">
+        Đăng nhập Discord
+      </button>
+    </a>
   </div>
-</section>
-</main></div><div class="modal" id="modal"><div class="modalbox"><h2 id="mt"></h2><div id="mf"></div><div class="modalactions"><button class="btn" onclick="closeM()">Hủy</button><button class="btn primary" onclick="submitM()">Lưu</button></div></div></div><div class="toast" id="toast"></div>
+</div>
+
+<div id="app" class="app" style="display:none">
+
+<aside class="sidebar">
+  <div class="logo">Discord Manager</div>
+
+  <div class="server">
+    <select id="guildSelect" onchange="selectGuild(this.value)">
+      <option value="">Chọn server...</option>
+    </select>
+  </div>
+
+  <nav class="nav">
+    <button data-p="overview">📊 <span>Tổng quan</span></button>
+    <button data-p="members">👥 <span>Thành viên</span></button>
+    <button data-p="roles">🛡️ <span>Roles</span></button>
+    <button data-p="channels">💬 <span>Kênh</span></button>
+    <button data-p="moderation">🔨 <span>Moderation</span></button>
+    <button data-p="automod">⚡ <span>AutoMod</span></button>
+    <button data-p="antilink">🔗 <span>Anti Link</span></button>
+    <button data-p="welcome">👋 <span>Welcome</span></button>
+    <button data-p="embeds">📝 <span>Embed Builder</span></button>
+    <button data-p="logs">📜 <span>Logs</span></button>
+    <button data-p="permissions">🔐 <span>Permissions</span></button>
+    <button data-p="settings">⚙️ <span>Cài đặt</span></button>
+  </nav>
+</aside>
+
+<main class="main">
+  <section id="content"></section>
+</main>
+
+</div>
+
+<div id="modalBg" class="modal-bg">
+  <div class="modal">
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
 <script>
-let me=null,guilds=[],gid=null,page="overview",action=null;
-const $=x=>document.getElementById(x),esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-async function api(u,o={}){let r=await fetch(u,{headers:{"Content-Type":"application/json"},...o}),d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||"Lỗi");return d}
-async function init(){me=await api("/api/me");if(!me.loggedIn){$("content").innerHTML=`<div class="card login"><div class="hero">Discord Manager</div><p class="muted">Đăng nhập Discord để bắt đầu quản lý server.</p><a class="btn primary" href="/auth/discord">Đăng nhập bằng Discord</a></div>`;return}
-$("account").innerHTML=`👤 ${esc(me.user.username)} <button class="btn" onclick="logout()">Đăng xuất</button>`;try{guilds=await api("/api/guilds");if(!guilds.length)throw Error("Bot chưa tham gia server nào");chooseServer()}catch(e){settings(e.message)}}
-function chooseServer(){if(!gid){$("content").innerHTML=`<div class="head"><div><h1>Chọn server</h1><p class="muted">Chọn server để quản lý.</p></div></div><div class="card">${guilds.map(g=>`<div class="guild" onclick="gid='${g.id}';$('sname').textContent='${esc(g.name).replace(/'/g,"&#39;")}';render()"><div class="gicon">${esc(g.name[0])}</div><div style="flex:1"><b>${esc(g.name)}</b><div class="muted">${g.members??0} thành viên</div></div>›</div>`).join("")}</div>`;return}render()}
-async function render(){if(page==="settings"){settings();return}if(page==="moderation"||page==="automod"||page==="welcome"||page==="embeds"||page==="permissions"){localPage();return}try{let endpoint=page==="overview"?"overview":page;let d=await api(`/api/guilds/${gid}/${endpoint}`);window["draw_"+page]?.(d)}catch(e){toast(e.message)}}
-window.draw_overview=d=>{$("content").innerHTML=`<div class="head"><div><h1>Tổng quan</h1><p class="muted">Thông tin trực tiếp từ Discord.</p></div><button class="btn" onclick="render()">↻ Làm mới</button></div><div class="grid"><div class="card stat">Thành viên<div class="num">${d.members}</div></div><div class="card stat">Kênh<div class="num">${d.channels}</div></div><div class="card stat">Roles<div class="num">${d.roles}</div></div><div class="card stat">Verification<div class="num">${esc(d.verification)}</div></div></div><div class="layout"><div class="card"><h2>${esc(d.name)}</h2><p class="muted">Server ID: ${d.id}</p><p class="muted">Owner ID: ${d.owner}</p></div><div class="card"><h2>Bot status</h2><span class="ok">● Online / Connected</span></div></div>`}
-window.draw_members=d=>{$("content").innerHTML=`<div class="head"><div><h1>Thành viên</h1><p class="muted">${d.length} thành viên đã tải.</p></div></div><div class="card tablewrap"><table><tr><th>Người dùng</th><th>Roles</th><th>Tham gia</th><th>Moderation</th></tr>${d.map(m=>`<tr><td><b>${esc(m.name)}</b><br><span class="muted">@${esc(m.username)}${m.bot?" · BOT":""}</span></td><td>${m.roles.slice(0,4).map(x=>`<span class="badge">${esc(x)}</span>`).join("")}</td><td>${m.joined?new Date(m.joined).toLocaleDateString("vi-VN"):"-"}</td><td><button class="btn danger" onclick="mod('${m.id}','kick')">Kick</button> <button class="btn danger" onclick="mod('${m.id}','ban')">Ban</button> <button class="btn" onclick="mod('${m.id}','timeout')">Timeout</button></td></tr>`).join("")}</table></div>`}
-window.draw_roles=d=>{$("content").innerHTML=`<div class="head"><div><h1>Roles</h1><p class="muted">${d.length} roles.</p></div><button class="btn primary" onclick="openM('Tạo role','role')">+ Tạo role</button></div><div class="card tablewrap"><table><tr><th>Tên</th><th>Màu</th><th>Vị trí</th><th>Trạng thái</th><th></th></tr>${d.map(r=>`<tr><td><b>${esc(r.name)}</b></td><td>${r.color}</td><td>${r.position}</td><td>${r.managed?"Managed":"Normal"}</td><td>${r.managed?"":`<button class="btn" onclick="openEditRole('${r.id}','${esc(r.name).replace(/'/g,"&#39;")}')">Sửa</button> <button class="btn danger" onclick="delRole('${r.id}')">Xóa</button>`}</td></tr>`).join("")}</table></div>`}
-window.draw_channels=d=>{$("content").innerHTML=`<div class="head"><div><h1>Kênh</h1><p class="muted">${d.length} kênh.</p></div><button class="btn primary" onclick="openM('Tạo kênh','channel')">+ Tạo kênh</button></div><div class="card tablewrap"><table><tr><th>Tên</th><th>Loại</th><th>Category</th><th></th></tr>${d.map(x=>`<tr><td># <b>${esc(x.name)}</b></td><td>${x.type===2?"Voice":x.type===4?"Category":"Text"}</td><td>${esc(x.parent||"-")}</td><td><button class="btn danger" onclick="delChannel('${x.id}')">Xóa</button></td></tr>`).join("")}</table></div>`}
-window.draw_logs=d=>{$("content").innerHTML=`<div class="head"><div><h1>Audit Logs</h1><p class="muted">50 hoạt động gần nhất.</p></div></div><div class="card tablewrap"><table><tr><th>Action</th><th>User</th><th>Target</th><th>Reason</th></tr>${d.map(x=>`<tr><td>${esc(x.action)}</td><td>${esc(x.user)}</td><td>${esc(x.target)}</td><td>${esc(x.reason||"-")}</td></tr>`).join("")}</table></div>`}
-function localPage(){const map={moderation:["Moderation","Kick, ban, timeout và công cụ xử lý thành viên."],automod:["AutoMod","Thiết lập lớp bảo vệ chống spam, link và từ khóa."],welcome:["Welcome","Tin nhắn chào mừng và hướng dẫn thành viên mới."],embeds:["Embed Builder","Tạo embed để gửi vào channel."],permissions:["Permission Manager","Quản lý quyền theo role và channel."]};let x=map[page];$("content").innerHTML=`<div class="head"><div><h1>${x[0]}</h1><p class="muted">${x[1]}</p></div></div><div class="card"><h2>${x[0]}</h2><p class="muted">Giao diện module đã sẵn sàng. Các thiết lập được lưu ở backend khi bạn kết nối database/config tương ứng.</p>${page==="embeds"?`<input id="embedChannel" placeholder="Channel ID"><textarea id="embedText" rows="5" placeholder="Nội dung embed"></textarea><br><button class="btn primary" onclick="sendMsg()">Gửi</button>`:page==="welcome"?`<label>Welcome message</label><input value="Chào mừng {user} đến với server!"><button class="btn primary" onclick="toast('Đã lưu cấu hình welcome')">Lưu</button>`:page==="automod"?`<p>• Chống spam<br>• Chặn link<br>• Từ khóa cấm<br>• Raid protection</p><button class="btn primary" onclick="toast('Đã lưu cấu hình AutoMod')">Lưu cấu hình</button>`:page==="permissions"?`<p>Chọn role/channel để chỉnh quyền chi tiết. Backend đã sẵn sàng mở rộng Discord permission overwrites.</p><button class="btn primary" onclick="toast('Mở Permission Editor')">Mở editor</button>`:`<p>Chọn thành viên ở mục Thành viên để thực hiện Kick / Ban / Timeout.</p>`}</div>`}
-function settings(err=""){$("content").innerHTML=`<div class="head"><div><h1>Bot & Cài đặt</h1><p class="muted">Kết nối bot Discord an toàn.</p></div></div><div class="card"><h2>🤖 Bot Token</h2><p class="muted">Token được gửi tới backend và mã hóa AES-256-GCM. Không lưu token trong frontend.</p><input id="token" type="password" autocomplete="off" placeholder="Dán Bot Token"><button class="btn primary" onclick="saveToken()">Lưu token</button> <button class="btn" onclick="connect()">Kiểm tra bot</button> <button class="btn danger" onclick="deleteToken()">Xóa token</button>${err?`<p class="danger">${esc(err)}</p>`:""}<p class="small muted">Bot cần được mời vào server và có quyền phù hợp. Không commit .env hoặc data.json.</p></div>`}
-async function saveToken(){try{await api("/api/token",{method:"POST",body:JSON.stringify({token:$("token").value})});toast("Đã lưu token mã hóa")}catch(e){toast(e.message)}}async function connect(){try{guilds=await api("/api/guilds");gid=null;chooseServer();toast("Bot kết nối thành công")}catch(e){toast(e.message)}}async function deleteToken(){if(confirm("Xóa Bot Token?")){await api("/api/token",{method:"DELETE"});settings()}}async function logout(){await api("/auth/logout",{method:"POST"});location.reload()}
-function openM(t,a){action=a;$("mt").textContent=t;$("mf").innerHTML=a==="role"?`<input id="mi" placeholder="Tên role">`:a==="channel"?`<input id="mi" placeholder="Tên kênh"><select id="mtype"><option value="text">Text</option><option value="voice">Voice</option><option value="category">Category</option></select>`:"";$("modal").classList.add("show")}function closeM(){$("modal").classList.remove("show")}async function submitM(){let n=$("mi").value.trim();try{if(action==="role")await api(`/api/guilds/${gid}/roles`,{method:"POST",body:JSON.stringify({name:n})});else await api(`/api/guilds/${gid}/channels`,{method:"POST",body:JSON.stringify({name:n,type:$("mtype").value})});closeM();render()}catch(e){toast(e.message)}}function openEditRole(id,name){action="editrole";$("mt").textContent="Sửa role";$("mf").innerHTML=`<input id="mi" value="${esc(name)}">`;modal.dataset.id=id;$("modal").classList.add("show")}async function delRole(id){if(confirm("Xóa role?")){try{await api(`/api/guilds/${gid}/roles/${id}`,{method:"DELETE"});render()}catch(e){toast(e.message)}}}async function delChannel(id){if(confirm("Xóa kênh?")){try{await api(`/api/guilds/${gid}/channels/${id}`,{method:"DELETE"});render()}catch(e){toast(e.message)}}}
-async function mod(id,type){let reason=prompt(type==="ban"?"Lý do ban":"Lý do");try{if(type==="kick")await api(`/api/guilds/${gid}/members/${id}/kick`,{method:"POST",body:JSON.stringify({reason})});if(type==="ban")await api(`/api/guilds/${gid}/members/${id}/ban`,{method:"POST",body:JSON.stringify({reason})});if(type==="timeout")await api(`/api/guilds/${gid}/members/${id}/timeout`,{method:"POST",body:JSON.stringify({reason,ms:3600000})});toast("Đã thực hiện");render()}catch(e){toast(e.message)}}
-async function sendMsg(){try{await api(`/api/guilds/${gid}/message`,{method:"POST",body:JSON.stringify({channelId:$("embedChannel").value,content:$("embedText").value})});toast("Đã gửi")}catch(e){toast(e.message)}}function toast(s){let t=$("toast");t.textContent=s;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
-document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");page=b.dataset.p;render()});init();
-</script>
-<script>
+let page="overview";
+let gid="";
+let guilds=[];
+
+const $=id=>document.getElementById(id);
+
+async function api(url,opt={}){
+  const r=await fetch(url,{
+    credentials:"same-origin",
+    headers:{
+      "Content-Type":"application/json",
+      ...(opt.headers||{})
+    },
+    ...opt
+  });
+
+  if(r.status===401){
+    showLogin();
+    throw new Error("Chưa đăng nhập");
+  }
+
+  const data=await r.json().catch(()=>({}));
+
+  if(!r.ok)
+    throw new Error(data.error||"Request failed");
+
+  return data;
+}
+
+function toast(text){
+  $("toast").textContent=text;
+  $("toast").style.display="block";
+  setTimeout(()=>$("toast").style.display="none",2500);
+}
+
+function showLogin(){
+  $("login").style.display="flex";
+  $("app").style.display="none";
+}
+
+function showApp(){
+  $("login").style.display="none";
+  $("app").style.display="flex";
+}
+
+async function init(){
+  try{
+    const me=await api("/api/me").catch(()=>null);
+
+    if(!me){
+      showLogin();
+      return;
+    }
+
+    showApp();
+    await loadGuilds();
+    await render();
+
+  }catch(e){
+    showLogin();
+  }
+}
+
+async function loadGuilds(){
+  guilds=await api("/api/guilds");
+
+  const s=$("guildSelect");
+
+  s.innerHTML=
+    '<option value="">Chọn server...</option>'+
+    guilds.map(g=>
+      `<option value="${g.id}">${escapeHtml(g.name)}</option>`
+    ).join("");
+
+  const saved=localStorage.getItem("selectedGuild");
+
+  if(saved && guilds.some(x=>x.id===saved)){
+    s.value=saved;
+    gid=saved;
+  }
+}
+
+function selectGuild(id){
+  gid=id;
+  localStorage.setItem("selectedGuild",id);
+  render();
+}
+
+function escapeHtml(s){
+  return String(s??"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;");
+}
+
+document.querySelectorAll(".nav button").forEach(btn=>{
+  btn.onclick=()=>{
+    page=btn.dataset.p;
+
+    document.querySelectorAll(".nav button")
+      .forEach(x=>x.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    render();
+  };
+});
+
+async function render(){
+
+  if(!gid){
+    $("content").innerHTML=`
+      <div class="card">
+        <h1>Discord Server Manager</h1>
+        <p class="muted">
+          Hãy chọn một server ở menu bên trái.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  if(page==="overview"){
+    await overview();
+    return;
+  }
+
+  if(page==="members"){
+    await members();
+    return;
+  }
+
+  if(page==="roles"){
+    await roles();
+    return;
+  }
+
+  if(page==="channels"){
+    await channels();
+    return;
+  }
+
+  if(page==="logs"){
+    await logs();
+    return;
+  }
+
+  if(page==="settings"){
+    settings();
+    loadTokenStatus();
+    return;
+  }
+
+  if(page==="antilink"){
+    antiLinkPage();
+    return;
+  }
+
+  localPage();
+}
+
+async function overview(){
+
+  $("content").innerHTML=`<div class="head">
+    <div>
+      <h1>Tổng quan</h1>
+      <p class="muted">Thông tin server</p>
+    </div>
+    <button class="btn primary" onclick="overview()">↻ Làm mới</button>
+  </div>
+  <div id="overviewData"></div>`;
+
+  try{
+
+    const x=await api("/api/guilds/"+gid+"/overview");
+
+    $("overviewData").innerHTML=`
+      <div class="grid">
+
+        <div class="card stat">
+          Thành viên
+          <b>${x.memberCount??x.members??0}</b>
+        </div>
+
+        <div class="card stat">
+          Channels
+          <b>${x.channelCount??x.channels??0}</b>
+        </div>
+
+        <div class="card stat">
+          Roles
+          <b>${x.roleCount??x.roles??0}</b>
+        </div>
+
+        <div class="card stat">
+          Server ID
+          <b style="font-size:15px">${gid}</b>
+        </div>
+
+      </div>
+    `;
+
+  }catch(e){
+
+    $("overviewData").innerHTML=
+      `<div class="card">❌ ${escapeHtml(e.message)}</div>`;
+
+  }
+}
+
+async function members(){
+
+  $("content").innerHTML=`
+    <div class="head">
+      <div>
+        <h1>Thành viên</h1>
+        <p class="muted">Quản lý thành viên server</p>
+      </div>
+    </div>
+    <div class="card" id="memberData">Đang tải...</div>
+  `;
+
+  try{
+
+    const x=await api("/api/guilds/"+gid+"/members");
+
+    const list=x.members||x;
+
+    $("memberData").innerHTML=`
+      <table>
+        <thead>
+          <tr>
+            <th>Thành viên</th>
+            <th>ID</th>
+            <th>Bot</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+        ${list.map(m=>`
+          <tr>
+            <td>${escapeHtml(m.user?.username||m.username||"Unknown")}</td>
+            <td>${escapeHtml(m.user?.id||m.id||"")}</td>
+            <td>${m.user?.bot||m.bot?"Bot":"User"}</td>
+            <td>
+              <div class="actions">
+
+                <button class="btn danger"
+                  onclick="memberAction('${m.user?.id||m.id}','kick')">
+                  Kick
+                </button>
+
+                <button class="btn danger"
+                  onclick="memberAction('${m.user?.id||m.id}','ban')">
+                  Ban
+                </button>
+
+                <button class="btn"
+                  onclick="memberAction('${m.user?.id||m.id}','timeout')">
+                  Timeout
+                </button>
+
+              </div>
+            </td>
+          </tr>
+        `).join("")}
+
+        </tbody>
+      </table>
+    `;
+
+  }catch(e){
+
+    $("memberData").innerHTML=
+      `<p>❌ ${escapeHtml(e.message)}</p>`;
+
+  }
+}
+
+async function memberAction(id,action){
+
+  if(!confirm("Bạn chắc chắn muốn thực hiện hành động này?"))
+    return;
+
+  try{
+
+    await api(
+      "/api/guilds/"+gid+"/members/"+id+"/"+action,
+      {method:"POST",body:JSON.stringify({})}
+    );
+
+    toast("Đã thực hiện "+action);
+    members();
+
+  }catch(e){
+    toast(e.message);
+  }
+}
+
+async function roles(){
+
+  $("content").innerHTML=`
+    <div class="head">
+      <div>
+        <h1>Roles</h1>
+        <p class="muted">Quản lý role</p>
+      </div>
+
+      <button class="btn primary"
+        onclick="openRoleModal()">
+        + Tạo Role
+      </button>
+    </div>
+
+    <div class="card" id="roleData">Đang tải...</div>
+  `;
+
+  try{
+
+    const x=await api("/api/guilds/"+gid+"/roles");
+    const list=x.roles||x;
+
+    $("roleData").innerHTML=list.map(r=>`
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:12px;
+        border-bottom:1px solid #282c38">
+
+        <div>
+          <b>${escapeHtml(r.name)}</b>
+          <div class="muted small">${r.id}</div>
+        </div>
+
+        <div class="actions">
+
+          <button class="btn"
+            onclick="editRole('${r.id}','${escapeHtml(r.name)}')">
+            Sửa
+          </button>
+
+          <button class="btn danger"
+            onclick="deleteRole('${r.id}')">
+            Xóa
+          </button>
+
+        </div>
+      </div>
+    `).join("");
+
+  }catch(e){
+
+    $("roleData").innerHTML=
+      `<p>❌ ${escapeHtml(e.message)}</p>`;
+
+  }
+}
+
+function openRoleModal(){
+
+  openModal(`
+    <h2>Tạo Role</h2>
+
+    <label>Tên Role</label>
+    <input id="roleName" placeholder="VIP">
+
+    <div class="actions" style="margin-top:15px">
+      <button class="btn primary" onclick="createRole()">
+        Tạo
+      </button>
+
+      <button class="btn" onclick="closeModal()">
+        Hủy
+      </button>
+    </div>
+  `);
+}
+
+async function createRole(){
+
+  const name=$("roleName").value.trim();
+
+  if(!name)return;
+
+  try{
+
+    await api("/api/guilds/"+gid+"/roles",{
+      method:"POST",
+      body:JSON.stringify({name})
+    });
+
+    closeModal();
+    toast("Đã tạo role");
+    roles();
+
+  }catch(e){
+    toast(e.message);
+  }
+}
+
+async function deleteRole(id){
+
+  if(!confirm("Xóa role này?"))return;
+
+  try{
+
+    await api("/api/guilds/"+gid+"/roles/"+id,{
+      method:"DELETE"
+    });
+
+    toast("Đã xóa role");
+    roles();
+
+  }catch(e){
+    toast(e.message);
+  }
+}
+
+function editRole(id,name){
+
+  openModal(`
+    <h2>Sửa Role</h2>
+
+    <label>Tên Role</label>
+    <input id="roleName" value="${escapeHtml(name)}">
+
+    <div class="actions" style="margin-top:15px">
+      <button class="btn primary"
+        onclick="updateRole('${id}')">
+        Lưu
+      </button>
+
+      <button class="btn" onclick="closeModal()">
+        Hủy
+      </button>
+    </div>
+  `);
+}
+
+async function updateRole(id){
+
+  const name=$("roleName").value.trim();
+
+  try{
+
+    await api("/api/guilds/"+gid+"/roles/"+id,{
+      method:"PATCH",
+      body:JSON.stringify({name})
+    });
+
+    closeModal();
+    roles();
+
+  }catch(e){
+    toast(e.message);
+  }
+}
+
+async function channels(){
+
+  $("content").innerHTML=`
+    <div class="head">
+      <div>
+        <h1>Kênh</h1>
+        <p class="muted">Quản lý channels</p>
+      </div>
+
+      <button class="btn primary"
+        onclick="openChannelModal()">
+        + Tạo kênh
+      </button>
+    </div>
+
+    <div class="card" id="channelData">
+      Đang tải...
+    </div>
+  `;
+
+  try{
+
+    const x=await api("/api/guilds/"+gid+"/channels");
+    const list=x.channels||x;
+
+    $("channelData").innerHTML=list.map(c=>`
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:12px;
+        border-bottom:1px solid #282c38">
+
+        <div>
+          <b>${c.type===2?"🔊":"#"} ${escapeHtml(c.name)}</b>
+          <div class="muted small">${c.id}</div>
+        </div>
+
+        <button class="btn danger"
+          onclick="deleteChannel('${c.id}')">
+          Xóa
+        </button>
+
+      </div>
+    `).join("");
+
+  }catch(e){
+
+    $("channelData").innerHTML=
+      `<p>❌ ${escapeHtml(e.message)}</p>`;
+
+  }
+}
+
+function openChannelModal(){
+
+  openModal(`
+    <h2>Tạo kênh</h2>
+
+    <label>Tên</label>
+    <input id="channelName" placeholder="general">
+
+    <label>Loại</label>
+    <select id="channelType">
+      <option value="0">Text</option>
+      <option value="2">Voice</option>
+    </select>
+
+    <div class="actions" style="margin-top:15px">
+      <button class="btn primary"
+        onclick="createChannel()">
+        Tạo
+      </button>
+
+      <button class="btn"
+        onclick="closeModal()">
+        Hủy
+      </button>
+    </div>
+  `);
+}
+
+async function createChannel(){
+
+  const name=$("channelName").value.trim();
+  const type=Number($("channelType").value);
+
+  try{
+
+    await api("/api/guilds/"+gid+"/channels",{
+      method:"POST",
+      body:JSON.stringify({name,type})
+    });
+
+    closeModal();
+    toast("Đã tạo kênh");
+    channels();
+
+  }catch(e){
+    toast(e.message);
+  }
+}
+
+async function deleteChannel(id){
+
+  if(!confirm("Xóa kênh này?"))return;
+
+  try{
+
+    await api("/api/guilds/"+gid+"/channels/"+id,{
+      method:"DELETE"
+    });
+
+    toast("Đã xóa kênh");
+    channels();
+
+  }catch(e){
+    toast(e.message);
+  }
+}
+
+async function logs(){
+
+  $("content").innerHTML=`
+    <div class="head">
+      <h1>Logs</h1>
+    </div>
+
+    <div class="card" id="logData">
+      Đang tải...
+    </div>
+  `;
+
+  try{
+
+    const x=await api("/api/guilds/"+gid+"/logs");
+    const list=x.logs||x;
+
+    $("logData").innerHTML=`
+      <table>
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>User</th>
+            <th>Target</th>
+            <th>Thời gian</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        ${list.map(l=>`
+          <tr>
+            <td>${escapeHtml(l.action||l.type||"")}</td>
+            <td>${escapeHtml(l.executor?.username||l.user||"")}</td>
+            <td>${escapeHtml(l.target||"")}</td>
+            <td>${escapeHtml(l.createdAt||"")}</td>
+          </tr>
+        `).join("")}
+        </tbody>
+      </table>
+    `;
+
+  }catch(e){
+
+    $("logData").innerHTML=
+      `<p>❌ ${escapeHtml(e.message)}</p>`;
+
+  }
+}
+
+function antiLinkPage(){
+
+  $("content").innerHTML=`
+
+    <div class="head">
+      <div>
+        <h1>🔗 Anti Link</h1>
+        <p class="muted">
+          Tự động xóa link không được phép.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+
+      <label class="switch-row">
+
+        <span>
+          <b>Bật Anti Link</b>
+          <br>
+          <small class="muted">
+            Bot sẽ xóa link ngoài whitelist.
+          </small>
+        </span>
+
+        <input
+          id="alEnabled"
+          type="checkbox"
+          style="width:auto">
+
+      </label>
+
+      <label>
+        Domain được phép
+      </label>
+
+      <textarea
+        id="alDomains"
+        rows="8"
+        placeholder="youtube.com
+discord.com
+tiktok.com"></textarea>
+
+      <div class="actions" style="margin-top:15px">
+
+        <button
+          class="btn primary"
+          onclick="saveAntiLink()">
+          💾 Lưu cấu hình
+        </button>
+
+      </div>
+
+      <p id="alStatus" class="muted small"></p>
+
+    </div>
+  `;
+
+  loadAntiLink();
+}
+
 async function loadAntiLink(){
-  if(!currentGuild)return;
-  const x=await api("/api/guilds/"+currentGuild+"/antilink");
-  const e=document.getElementById("alEnabled"), d=document.getElementById("alDomains"), s=document.getElementById("alStatus");
-  if(e)e.checked=!!x.enabled;
-  if(d)d.value=(x.allowedDomains||[]).join("\n");
-  if(s)s.textContent=x.enabled?"Anti Link đang bật.":"Anti Link đang tắt.";
+
+  try{
+
+    const x=await api(
+      "/api/guilds/"+gid+"/antilink"
+    );
+
+    $("alEnabled").checked=!!x.enabled;
+
+    $("alDomains").value=
+      (x.allowedDomains||[]).join("\n");
+
+    $("alStatus").textContent=
+      x.enabled
+      ?"Anti Link đang bật."
+      :"Anti Link đang tắt.";
+
+  }catch(e){
+
+    $("alStatus").textContent=
+      "❌ "+e.message;
+
+  }
 }
+
 async function saveAntiLink(){
-  if(!currentGuild)return;
-  const allowedDomains=document.getElementById("alDomains").value.split(/[\n,]+/).map(x=>x.trim()).filter(Boolean);
-  await api("/api/guilds/"+currentGuild+"/antilink",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({enabled:document.getElementById("alEnabled").checked,allowedDomains})});
-  document.getElementById("alStatus").textContent="✅ Đã lưu.";
+
+  try{
+
+    const domains=
+      $("alDomains")
+      .value
+      .split(/[\n,]+/)
+      .map(x=>x.trim())
+      .filter(Boolean);
+
+    await api(
+      "/api/guilds/"+gid+"/antilink",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          enabled:$("alEnabled").checked,
+          allowedDomains:domains
+        })
+      }
+    );
+
+    $("alStatus").textContent=
+      "✅ Đã lưu Anti Link.";
+
+    toast("Đã lưu Anti Link");
+
+  }catch(e){
+
+    toast(e.message);
+
+  }
 }
+
+function localPage(){
+
+  const titles={
+    moderation:["🔨 Moderation","Các công cụ quản lý server"],
+    automod:["⚡ AutoMod","Thiết lập AutoMod"],
+    welcome:["👋 Welcome","Tin nhắn chào mừng thành viên"],
+    embeds:["📝 Embed Builder","Tạo Embed"],
+    permissions:["🔐 Permission Manager","Quản lý quyền"]
+  };
+
+  const t=titles[page]||["Dashboard",""];
+
+  $("content").innerHTML=`
+
+    <div class="head">
+      <div>
+        <h1>${t[0]}</h1>
+        <p class="muted">${t[1]}</p>
+      </div>
+    </div>
+
+    <div class="card">
+
+      <h2>${t[0]}</h2>
+
+      <p class="muted">
+        Module này được tích hợp trong dashboard.
+      </p>
+
+      ${
+        page==="moderation"
+        ?`
+        <div class="actions">
+
+          <button class="btn danger"
+            onclick="promptModeration('purge')">
+            🗑️ Xóa tin nhắn
+          </button>
+
+          <button class="btn"
+            onclick="promptModeration('lock')">
+            🔒 Lock kênh
+          </button>
+
+          <button class="btn"
+            onclick="promptModeration('unlock')">
+            🔓 Unlock kênh
+          </button>
+
+        </div>`
+        :
+        page==="welcome"
+        ?`
+        <label>Channel ID</label>
+        <input id="welcomeChannel">
+
+        <label>Welcome Message</label>
+        <textarea id="welcomeMessage"
+          rows="5"
+          placeholder="Chào mừng {user} đến với server!"></textarea>
+
+        <button class="btn primary"
+          style="margin-top:12px"
+          onclick="toast('Đã lưu Welcome')">
+          💾 Lưu
+        </button>
+        `
+        :
+        page==="embeds"
+        ?`
+        <label>Tiêu đề</label>
+        <input id="embedTitle">
+
+        <label>Nội dung</label>
+        <textarea id="embedDescription"
+          rows="6"></textarea>
+
+        <label>Channel ID</label>
+        <input id="embedChannel">
+
+        <button class="btn primary"
+          style="margin-top:12px"
+          onclick="toast('Embed đã được tạo')">
+          Gửi Embed
+        </button>
+        `
+        :
+        `<p>
+          ⚙️ Bạn có thể cấu hình module này tại đây.
+        </p>`
+      }
+
+    </div>
+  `;
+}
+
+function promptModeration(type){
+
+  const channel=prompt("Nhập Channel ID:");
+
+  if(!channel)return;
+
+  api("/api/guilds/"+gid+"/moderation",{
+    method:"POST",
+    body:JSON.stringify({
+      action:type,
+      channelId:channel
+    })
+  })
+  .then(()=>toast("Đã thực hiện"))
+  .catch(e=>toast(e.message));
+}
+
+function settings(){
+
+  $("content").innerHTML=`
+
+    <div class="head">
+      <div>
+        <h1>⚙️ Cài đặt</h1>
+        <p class="muted">
+          Cấu hình Bot và dashboard.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+
+      <h2>🤖 Bot Token</h2>
+
+      <p class="muted small">
+        Token được gửi tới backend và mã hóa AES-256-GCM.
+        Không lưu token trong trình duyệt.
+      </p>
+
+      <p id="tokenStatus" class="muted small"></p>
+
+      <input
+        id="token"
+        type="password"
+        placeholder="Nhập Bot Token">
+
+      <div class="actions" style="margin-top:12px">
+
+        <button class="btn primary"
+          onclick="saveToken()">
+          🔐 Lưu & kết nối Bot
+        </button>
+
+        <button class="btn danger"
+          onclick="deleteToken()">
+          Xóa Token
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  loadTokenStatus();
+}
+
 async function loadTokenStatus(){
-  const el=document.getElementById("tokenStatus"); if(!el)return;
-  try{const x=await api("/api/token/status");el.textContent=x.connected?"✅ Bot Token đã được lưu an toàn trên server.":"⚠️ Chưa có Bot Token.";}catch{}
+
+  const el=$("tokenStatus");
+
+  if(!el)return;
+
+  try{
+
+    const x=await api("/api/token/status");
+
+    el.textContent=
+      x.connected
+      ?"✅ Bot Token đã được lưu an toàn trên server."
+      :"⚠️ Chưa có Bot Token.";
+
+  }catch{}
+
 }
+
+async function saveToken(){
+
+  const token=$("token").value.trim();
+
+  if(!token){
+    toast("Chưa nhập Bot Token");
+    return;
+  }
+
+  try{
+
+    await api("/api/token",{
+      method:"POST",
+      body:JSON.stringify({token})
+    });
+
+    $("token").value="";
+
+    toast("Đã lưu Bot Token");
+
+    loadTokenStatus();
+
+  }catch(e){
+
+    toast(e.message);
+
+  }
+}
+
+async function deleteToken(){
+
+  if(!confirm("Xóa Bot Token đã lưu?"))
+    return;
+
+  try{
+
+    await api("/api/token/delete",{
+      method:"POST"
+    });
+
+    toast("Đã xóa Token");
+
+    loadTokenStatus();
+
+  }catch(e){
+
+    toast(e.message);
+
+  }
+}
+
+function openModal(content){
+
+  $("modalContent").innerHTML=content;
+  $("modalBg").style.display="flex";
+
+}
+
+function closeModal(){
+
+  $("modalBg").style.display="none";
+
+}
+
+$("modalBg").addEventListener("click",e=>{
+  if(e.target===$("modalBg"))
+    closeModal();
+});
+
+init();
 </script>
-</body></html>
+
+</body>
+</html>
